@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import {useEffect, useState} from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
@@ -6,6 +6,11 @@ import Search from './fonction'
 import Classcomponent from './components/Classcomponent'
 import Functioncomponent from './components/Functioncomponent'
 import Methods from "./components/ClassComponentLifeCycle/Methods.jsx";
+import Counter from "./components/Counter.jsx";
+import ListeManager from "./components/ListeManager.jsx";
+import ColorChanger from "./components/ColorChanger.jsx";
+import ListeDesNotes from "./components/ListeDesNotes.jsx";
+import TodoList from "./components/TodoList.jsx";
 
 function App() {
     const [count, setCount] = useState(0)
@@ -14,31 +19,73 @@ function App() {
         return a+b ;
     }
     console.log(somme(5,5));
+    const [{color,backgroungColor}, setColors] = useState({color:'black',backgroungColor:'white'});
+    useEffect(() => {
+        console.log('useEffect');
 
+    },[
+        count
+    ]);
+
+    const listIems = ["angular","react","vue"];
+    const initialColor = '#FF0000'; // Rouge
+    const colorOptions = ['#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#FF00FF', '#00FFFF'];
+    const notes = [12, 15, 9, 18, 14];
+    const todoList =[
+        { name: 'Finir le projet React', priority: 'Haute', completed: false },
+        { name: 'Préparer le repas', priority: 'Moyenne', completed: false },
+        { name: 'Aller courir', priority: 'Basse', completed: true },
+    ];
     return (
         <>
-        <Classcomponent name="malek"/>
-        
-        <Functioncomponent/>
+            <Classcomponent name="malek"/>
+
+            <Functioncomponent/>
 
             <Methods/>
+            <Counter step={5}/>
+            <ListeManager lists={listIems}
+                          placeholder="Ajouter une liste"
+            />
+            <ColorChanger initialColor={initialColor} colorOptions={colorOptions} />
+            <ListeDesNotes initialNotes={notes} />
+            <TodoList todoList={todoList}/>
+
+            <div className="card">
+                <button onClick={() => setCount((count) => count + 1)}>
+                    count is {count}
+                </button>
+                <h2>le couleur est {color} et le background {backgroungColor}</h2>
+                <input type="text" onChange={e => {
+                    setColors(c => ({...c, color: e.target.value}))
+                }}/>
+                <p>
+                    Edit <code>src/App.jsx</code> and save to test HMR
+                </p>
+            </div>
+            <p className="read-the-docs">
+                Click on the Vite and React logos to learn more
+            </p>
 
         </>
+
+
     )
 }
-const tab=[1,2,3,5,9];
-const newtab = tab.map((e)=>e*2);
+
+const tab = [1, 2, 3, 5, 9];
+const newtab = tab.map((e) => e * 2);
 console.log(newtab);
 const words = ['spray', 'elite', 'exuberant', 'destruction', 'present'];
 const result = words.filter((word) => word.length > 6);
 console.log(result);
 const array1 = [1, 2, 6, 5];
-const findLongestWord=(x)=>     {
-    let newtab = x.map(e=>{
-        return("le mot est :"+e,"la longueur est :"+e.length);
+const findLongestWord = (x) => {
+    let newtab = x.map(e => {
+        return ("le mot est :" + e, "la longueur est :" + e.length);
     });
-    return newtab.reduce((acc,curr)=>{
-        return acc.length>curr.length?acc:curr;
+    return newtab.reduce((acc, curr) => {
+        return acc.length > curr.length ? acc : curr;
 
     })
 }
@@ -82,15 +129,15 @@ let tab1=[
   ];
   console.log(tab1)
   let ID =0;
-  
+
   tab1=tab1.map((i)=>{
     ID++;
     return {...i,id:ID};
   })
   tab1.push({name:"skander",age:45,id :ID++});
-  
+
   console.log("apres push ",tab1)
-  
+
   const chercher=Search(tab1,1);
   console.log("l'id a chercher " ,chercher);
 
